@@ -1,3 +1,9 @@
 /.idea/
 /dockercomposephp/node_modules/
 /dockercomposephp/vendor/
+/dockercomposephp/public/build
+/dockercomposephp/public/hot
+/dockercomposephp/public/storage
+/dockercomposephp/storage/*.key
+/dockercomposephp/npm-debug.log
+/dockercomposephp/yarn-error.log
