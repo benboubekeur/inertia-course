@@ -1,0 +1,39 @@
+version: "3.7"
+services:
+  app:
+    image: tangramor/nginx-php8-fpm
+    environment:
+      TZ: 'Asia/Shanghai'
+      WEBROOT: '/var/www/html/public'
+      PHP_REDIS_SESSION_HOST: 'redis'
+      CREATE_LARAVEL_STORAGE: '1'
+      COMPOSERMIRROR: 'https://mirrors.cloud.tencent.com/composer/'
+      NPMMIRROR: 'https://registry.npmmirror.com'
+    ports:
+      - '80:80'
+      - '5173:5173'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - '.:/var/www/html'
+
+  db:
+    image: mysql:8
+    container_name: travellist-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - travellist
+
+
+networks:
+  travellist:
+    driver: bridge
